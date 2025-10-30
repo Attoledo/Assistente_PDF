@@ -1,0 +1,12 @@
+streamlit>=1.39
+python-dotenv>=1.0.1
+langchain>=0.3.13
+langchain-core>=0.3.28
+langchain-community>=0.3.13
+langchain-groq>=0.2.1
+langchain-openai>=0.2.3
+pypdf>=5.1.0
+rank-bm25>=0.2.2
+tiktoken>=0.7.0
+langchain-text-splitters>=0.3.0
+
