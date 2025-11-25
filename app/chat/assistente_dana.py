@@ -116,7 +116,7 @@ LANG: Dict[str, Dict[str, str]] = {
     },
     "it": {
         "ui_pdf_theme": "📚 Tema del PDF",
-        "ui_theme_detected": "Tema rilevato, modificabile",
+        "ui_theme_detected": "Tema rilevato (modificabile)",
         "ui_caption": "L'agente si comporta come esperto, basandosi sul PDF caricato.",
         "ui_quick": "⚡ Task rapidi",
         "ui_quick_page": "Riassunto pagina",
@@ -125,24 +125,24 @@ LANG: Dict[str, Dict[str, str]] = {
         "ui_quick_faq": "FAQ",
         "ui_quick_plan": "Piano di studio",
         "ui_quick_exs": "Esercizi",
-        "ui_go_page": "Vai a pagina, 1-based",
+        "ui_go_page": "Vai a pagina (1-based)",
         "ui_read_page": "📄 Leggi pagina",
-        "ui_chat_ph": "Fai una domanda sul PDF, per esempio, 'Spiega il punto X a pagina 10'",
+        "ui_chat_ph": "Fai una domanda sul PDF (es.: 'Spiega il punto X a pagina 10')",
         "ui_not_indexed": "Indice non caricato. Carica un PDF e attendi l'indicizzazione.",
         "ui_no_pages": "Le pagine del PDF non sono disponibili. Ricarica per reindicizzare.",
         "ui_page_not_exist": "La pagina {page} non esiste. Questo PDF ha {total} pagine.",
         "ui_not_found": "Non ho trovato estratti rilevanti nel documento per questa richiesta.",
-        "ui_sources": "🔎 Estratti usati, fonti",
+        "ui_sources": "🔎 Estratti usati (fonti)",
         "your_name": "Il tuo nome",
         "clear_history": "🧹 Pulisci storico",
         "sys_tutor": (
             "Sei un esperto e tutor nel tema del PDF indicato.\n"
-            "PDF, Tema, {tema_pdf}\n\n"
+            "PDF, Tema: {tema_pdf}\n\n"
             "Regole:\n"
             "1) Rispondi solo in base al contesto; se manca qualcosa, dillo chiaramente.\n"
             "2) Spiega in modo chiaro e didattico, con struttura, passi ed esempi quando utile.\n"
             "3) Approfondisci, buone pratiche, errori comuni e prossimi passi.\n"
-            "4) Cita sempre le pagine quando possibile, per esempio, 'vedi pagg. 62–63'.\n"
+            "4) Cita sempre le pagine quando possibile (es.: 'vedi pagg. 62–63').\n"
             "5) Sii conciso e utile.\n"
             "6) Rivolgiti sempre all’utente per nome `{nome}` quando è naturale.\n"
         ),
@@ -169,7 +169,7 @@ LANG: Dict[str, Dict[str, str]] = {
     },
     "en": {
         "ui_pdf_theme": "📚 PDF Theme",
-        "ui_theme_detected": "Detected theme, you may edit",
+        "ui_theme_detected": "Detected theme (you may edit)",
         "ui_caption": "The agent behaves as a specialist, based on the uploaded PDF.",
         "ui_quick": "⚡ Quick tasks",
         "ui_quick_page": "Page summary",
@@ -178,24 +178,24 @@ LANG: Dict[str, Dict[str, str]] = {
         "ui_quick_faq": "FAQ",
         "ui_quick_plan": "Study plan",
         "ui_quick_exs": "Exercises",
-        "ui_go_page": "Go to page, 1-based",
+        "ui_go_page": "Go to page (1-based)",
         "ui_read_page": "📄 Read page",
-        "ui_chat_ph": "Ask about the PDF, for example, 'Explain topic X on page 10'",
+        "ui_chat_ph": "Ask about the PDF (e.g., 'Explain topic X on page 10')",
         "ui_not_indexed": "Index not loaded. Upload a PDF and wait for indexing.",
         "ui_no_pages": "PDF pages are unavailable. Re-upload to re-index.",
         "ui_page_not_exist": "Page {page} does not exist. This PDF has {total} pages.",
         "ui_not_found": "No relevant excerpts found in the document for this request.",
-        "ui_sources": "🔎 Used excerpts, sources",
+        "ui_sources": "🔎 Used excerpts (sources)",
         "your_name": "Your name",
         "clear_history": "🧹 Clear history",
         "sys_tutor": (
             "You are a specialist and tutor in the theme of the provided PDF.\n"
-            "PDF, Theme, {tema_pdf}\n\n"
+            "PDF, Theme: {tema_pdf}\n\n"
             "Rules:\n"
             "1) Answer only based on the provided context; if something is missing, say it clearly.\n"
             "2) Explain clearly and pedagogically, with structure, steps and examples when useful.\n"
             "3) Go deeper, best practices, common pitfalls and next steps.\n"
-            "4) Always reference pages when possible, for example, 'see pp. 62–63'.\n"
+            "4) Always reference pages when possible (e.g., 'see pp. 62–63').\n"
             "5) Be concise and useful.\n"
             "6) Always address the user by their name `{nome}` when appropriate.\n"
         ),
@@ -268,6 +268,81 @@ def _compactar_docs(docs: List[Document], limite_chars: int = 5200) -> str:
 def _normalize(s: str) -> str:
     return unicodedata.normalize("NFD", s).encode("ascii", "ignore").decode("ascii")
 
+
+def _detectar_tema_pdf(docs_paginas: List[Document]) -> str:
+    """
+    Detecção de tema mais robusta:
+    - analisa as primeiras páginas
+    - ignora linhas de endereço, empresa, lixo (iiiiii, etc.)
+    - tenta encontrar algo que pareça título de manual/livro
+    """
+    if not docs_paginas:
+        return "tema do PDF / tema del PDF / theme of the PDF"
+
+    candidates: List[str] = []
+
+    max_pages = min(5, len(docs_paginas))
+    for i in range(max_pages):
+        text = (docs_paginas[i].page_content or "").strip()
+        if not text:
+            continue
+        lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+        for ln in lines[:40]:  # primeiras linhas de cada página
+            ln_norm = _normalize(ln).lower()
+
+            # filtros de ruído
+            if len(ln) < 5 or len(ln) > 120:
+                continue
+            # linha quase só pontuação ou dígito
+            if sum(ch.isalnum() for ch in ln) < len(ln) * 0.4:
+                continue
+            # muito repetitiva, tipo "iiiiiiiii"
+            if len(set(ln.replace(" ", ""))) == 1:
+                continue
+            # coisas típicas de endereço/empresa
+            lixo = [
+                "via ", "s.r.l", "srl", "s.p.a", "spa",
+                "lumezzane", "automazioni industriali",
+                "@", ".it", ".com", "tel.", "fax",
+            ]
+            if any(w in ln_norm for w in lixo):
+                continue
+
+            # palavras típicas de título de manual
+            palavras_titulo = [
+                "manuale", "manuale d'uso", "manuale applicativo",
+                "robot", "motoman", "applicativo", "uso", "introduzione",
+                "user manual", "operation manual", "guia", "manual",
+            ]
+            score = 0
+            for w in palavras_titulo:
+                if w in ln_norm:
+                    score += 1
+
+            # se tem palavras de título, é forte candidato
+            if score > 0:
+                candidates.append(ln)
+            else:
+                # se parecer uma frase decente, também serve
+                if ln[0].isupper() and " " in ln:
+                    candidates.append(ln)
+
+    if not candidates:
+        return "tema do PDF / tema del PDF / theme of the PDF"
+
+    # remove duplicados mantendo ordem
+    seen = set()
+    uniq = []
+    for c in candidates:
+        if c not in seen:
+            seen.add(c)
+            uniq.append(c)
+
+    # junta no máximo 2 linhas relevantes
+    tema = " — ".join(uniq[:2])
+    return tema or "tema do PDF / tema del PDF / theme of the PDF"
+
+
 def _extrair_pagina(pergunta: str, patt_list: List[str]) -> Optional[int]:
     if not pergunta:
         return None
@@ -276,7 +351,7 @@ def _extrair_pagina(pergunta: str, patt_list: List[str]) -> Optional[int]:
         m = re.search(_normalize(pat), norm, flags=re.IGNORECASE)
         if m:
             try:
-                return max(int(m.group(1)) - 1, 0)
+                return max(int(m.group(1)) - 1, 0)  # 1-based -> 0-based
             except ValueError:
                 continue
     return None
@@ -291,23 +366,6 @@ def _contexto_por_pagina(docs_paginas: List[Document], pagina0: int, vizinhas: i
 
 def _tem_texto(docs: List[Document]) -> bool:
     return any((d.page_content or "").strip() for d in docs)
-
-def _detectar_tema_pdf(docs_paginas: List[Document]) -> str:
-    if not docs_paginas:
-        return "tema do PDF / tema del PDF / theme of the PDF"
-    first = []
-    for i in range(min(2, len(docs_paginas))):
-        t = (docs_paginas[i].page_content or "").strip()
-        if t:
-            first.append(t)
-    base = "\n".join(first)[:1000]
-    lines = [ln.strip() for ln in base.splitlines() if ln.strip()]
-    heads = []
-    for ln in lines[:10]:
-        if 3 <= len(ln) <= 120:
-            heads.append(ln)
-    theme = " • ".join(heads[:3])
-    return theme or "tema do PDF / tema del PDF / theme of the PDF"
 
 def _instrucao_tarefa(task: QuickTask, pagina: Optional[int], L: Dict[str, str]) -> str:
     page_h = (pagina + 1) if pagina is not None else "?"
@@ -365,7 +423,7 @@ def _montar_contexto(
 def _extrair_primeiro_nome(resposta: str) -> str:
     """
     Extrai apenas o primeiro nome do texto, ignorando o resto.
-    Exemplo, 'Olá, me chamo Jonas, tudo bem?' -> 'Jonas'
+    Exemplo: 'Olá, me chamo Jonas, tudo bem?' -> 'Jonas'
     """
     if not resposta:
         return ""
@@ -411,6 +469,43 @@ def _extrair_primeiro_nome(resposta: str) -> str:
     return partes[0].strip()
 
 
+# ===========================
+# Intenções especiais (router)
+# ===========================
+def detectar_intencao(pergunta: str) -> str:
+    """
+    Detecta intenções estruturais, como:
+    - contar_paginas
+    - nome_pdf
+    Retorna 'normal' se não detectar nada especial.
+    """
+    if not pergunta:
+        return "normal"
+
+    p = _normalize(pergunta.lower())
+
+    # Contar páginas
+    pads_pag = [
+        "quantas paginas", "quantas páginas", "numero de paginas", "numero de páginas",
+        "número de paginas", "número de páginas", "total de paginas", "total de páginas",
+        "quante pagine", "numero di pagine", "numero pagine", "totale pagine",
+        "how many pages", "number of pages", "total pages", "page count",
+    ]
+    if any(k in p for k in pads_pag):
+        return "contar_paginas"
+
+    # Nome do PDF / arquivo
+    pads_nome = [
+        "nome do arquivo", "nome do ficheiro", "nome do pdf",
+        "come si chiama il file", "nome del file", "nome del pdf",
+        "file name", "name of the file", "pdf name", "name of the pdf",
+    ]
+    if any(k in p for k in pads_nome):
+        return "nome_pdf"
+
+    return "normal"
+
+
 QuickTaskType = Literal["resumo_pagina", "resumo_documento", "glossario", "faq", "plano_estudo", "exercicios"]
 
 
@@ -424,7 +519,7 @@ def iniciar_assistente(
 ):
     ensure_session_defaults()
 
-    # Força parâmetros ideais
+    # Parâmetros fixos ideais
     k = 6
     incluir_vizinhas = 1
 
@@ -441,6 +536,7 @@ def iniciar_assistente(
         st.error(L["ui_no_pages"])
         return
 
+    # Tema + nome de arquivo
     tema_pdf_auto = _detectar_tema_pdf(docs_paginas)
 
     file_name = "PDF"
@@ -629,7 +725,41 @@ def iniciar_assistente(
     if not pergunta and not quick_task:
         return
 
-    # Historiza pergunta
+    # Intenção especial (páginas, nome do PDF, etc.)
+    intencao = detectar_intencao(pergunta or "")
+
+    if intencao == "contar_paginas":
+        total = len(docs_paginas)
+        if lang_code == "it":
+            resposta = f"Questo PDF ha **{total} pagine**."
+        elif lang_code == "en":
+            resposta = f"This PDF has **{total} pages**."
+        else:
+            resposta = f"Este PDF possui **{total} páginas**."
+
+        with st.chat_message("assistant"):
+            st.markdown(resposta)
+        hist = SAFE_GET("chat_history", [])
+        hist.append({"role": "assistant", "content": resposta})
+        SAFE_SET("chat_history", hist)
+        return
+
+    if intencao == "nome_pdf":
+        if lang_code == "it":
+            resposta = f"Il nome del file è **{file_name}**."
+        elif lang_code == "en":
+            resposta = f"The file name is **{file_name}**."
+        else:
+            resposta = f"O nome do arquivo é **{file_name}**."
+
+        with st.chat_message("assistant"):
+            st.markdown(resposta)
+        hist = SAFE_GET("chat_history", [])
+        hist.append({"role": "assistant", "content": resposta})
+        SAFE_SET("chat_history", hist)
+        return
+
+    # Historiza pergunta (agora como pergunta normal no histórico)
     hist = SAFE_GET("chat_history", [])
     uname = SAFE_GET("user_name", "")
     hist.append({"role": "user", "content": f"({uname}) {pergunta}"})
