@@ -69,7 +69,11 @@ pdf_file = st.file_uploader(uploader_label, type=["pdf"])
 
 if pdf_file:
     raw = pdf_file.read()
-    temp_path = Path("temp.pdf")
+
+    # usa o nome REAL do arquivo enviado
+    uploaded_name = pdf_file.name
+    temp_path = Path(uploaded_name)
+
     with open(temp_path, "wb") as f:
         f.write(raw)
 
