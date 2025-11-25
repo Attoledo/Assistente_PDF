@@ -64,7 +64,7 @@ LANG: Dict[str, Dict[str, str]] = {
     "pt": {
         "ui_pdf_theme": "📚 Tema do PDF",
         "ui_theme_detected": "Tema detectado (edite se quiser)",
-        "ui_caption": "O agente se comportará como especialista **nesse tema**, com base no PDF enviado.",
+        "ui_caption": "O agente se comportará como especialista, com base no PDF enviado.",
         "ui_quick": "⚡ Tarefas rápidas",
         "ui_quick_page": "Resumo da página",
         "ui_quick_doc": "Resumo do documento",
@@ -72,12 +72,9 @@ LANG: Dict[str, Dict[str, str]] = {
         "ui_quick_faq": "FAQ",
         "ui_quick_plan": "Plano de estudo",
         "ui_quick_exs": "Exercícios",
-        "ui_status": "🧪 Status do documento (debug)",
-        "ui_total_pages": "Total de páginas",
-        "ui_samples": "amostras (página, len_texto)",
         "ui_go_page": "Ir para página (1-based)",
         "ui_read_page": "📄 Ler página",
-        "ui_chat_ph": "Pergunte ao Especialista do PDF (ex.: 'Explique o tópico X na página 10')",
+        "ui_chat_ph": "Pergunte sobre o PDF (ex.: 'Explique o tópico X na página 10')",
         "ui_not_indexed": "Índice não carregado. Faça upload do PDF e aguarde a indexação.",
         "ui_no_pages": "Páginas do PDF não estão disponíveis. Refaça o upload para reindexar.",
         "ui_page_not_exist": "A página {page} não existe. Este PDF tem {total} páginas.",
@@ -86,41 +83,41 @@ LANG: Dict[str, Dict[str, str]] = {
         "your_name": "Seu nome",
         "clear_history": "🧹 Limpar histórico",
         "sys_tutor": (
-            "Você é um especialista e tutor no **tema do PDF** indicado.\n"
-            "PDF – Tema: {tema_pdf}\n\n"
+            "Você é um especialista e tutor no tema do PDF indicado.\n"
+            "PDF, Tema: {tema_pdf}\n\n"
             "Regras:\n"
             "1) Responda apenas com base no contexto; se faltar algo, diga explicitamente.\n"
             "2) Explique de forma clara e didática, com estrutura, passos e exemplos quando útil.\n"
-            "3) Aprofunde: boas práticas, armadilhas comuns e próximos passos.\n"
-            "4) Referencie páginas quando possível (ex.: 'ver págs. 62–63').\n"
+            "3) Aprofunde, boas práticas, armadilhas comuns e próximos passos.\n"
+            "4) Referencie páginas quando possível, por exemplo, 'ver págs. 62–63'.\n"
             "5) Seja conciso no essencial e útil nos detalhes.\n"
-            "6) **Trate sempre o usuário pelo nome `{nome}`** quando fizer sentido.\n"
+            "6) Trate sempre o usuário pelo nome `{nome}` quando fizer sentido.\n"
         ),
         "prompt_qa": (
             "Usuário: {nome}\n"
             "Pergunta: {pergunta}\n\n"
-            "Contexto (trechos do PDF):\n{contexto}\n\n"
+            "Contexto, trechos do PDF:\n{contexto}\n\n"
             "Responda como especialista no tema acima, seguindo as regras do sistema."
         ),
         "prompt_task": (
             "Usuário: {nome}\n"
             "Tarefa: {tarefa}\n"
             "Instruções: {instrucao}\n\n"
-            "Contexto (trechos do PDF):\n{contexto}\n\n"
+            "Contexto, trechos do PDF:\n{contexto}\n\n"
             "Produza a saída final, bem organizada e acionável, seguindo as regras do sistema."
         ),
-        "task_page_instr": "Faça um resumo claro da página {page}: ideia central, pontos-chave, termos e o que o leitor deve saber para aplicar.",
-        "task_doc_instr": "Resumo executivo do PDF: objetivos, estrutura, conceitos centrais e aplicações. Inclua 'Como usar este PDF'.",
-        "task_gloss_instr": "Glossário: termo, definição simples e onde aparece (página aproximada).",
-        "task_faq_instr": "FAQ com 8–12 perguntas/respostas sobre dúvidas prováveis.",
-        "task_plan_instr": "Plano de estudo (iniciante→avançado) com metas, prática e checkpoints.",
-        "task_exs_instr": "Exercícios práticos (5–10) com objetivo, passos e critério de sucesso.",
+        "task_page_instr": "Faça um resumo claro da página {page}, ideia central, pontos chave, termos e o que o leitor deve saber para aplicar.",
+        "task_doc_instr": "Resumo executivo do PDF, objetivos, estrutura, conceitos centrais e aplicações. Inclua 'Como usar este PDF'.",
+        "task_gloss_instr": "Glossário, termo, definição simples e onde aparece, página aproximada.",
+        "task_faq_instr": "FAQ com 8–12 perguntas e respostas sobre dúvidas prováveis.",
+        "task_plan_instr": "Plano de estudo, iniciante até avançado, com metas, prática e checkpoints.",
+        "task_exs_instr": "Exercícios práticos, 5–10, com objetivo, passos e critério de sucesso.",
         "word_page_patterns": [r"\bp[aá]g(?:ina)?\.?\s*(\d+)\b", r"\bp[aá]gina\.?\s*(\d+)\b"],
     },
     "it": {
         "ui_pdf_theme": "📚 Tema del PDF",
-        "ui_theme_detected": "Tema rilevato (modificabile)",
-        "ui_caption": "L'agente si comporta come esperto **di questo tema**, basandosi sul PDF caricato.",
+        "ui_theme_detected": "Tema rilevato, modificabile",
+        "ui_caption": "L'agente si comporta come esperto, basandosi sul PDF caricato.",
         "ui_quick": "⚡ Task rapidi",
         "ui_quick_page": "Riassunto pagina",
         "ui_quick_doc": "Riassunto documento",
@@ -128,55 +125,52 @@ LANG: Dict[str, Dict[str, str]] = {
         "ui_quick_faq": "FAQ",
         "ui_quick_plan": "Piano di studio",
         "ui_quick_exs": "Esercizi",
-        "ui_status": "🧪 Stato documento (debug)",
-        "ui_total_pages": "Totale pagine",
-        "ui_samples": "campioni (pagina, len_testo)",
-        "ui_go_page": "Vai a pagina (1-based)",
+        "ui_go_page": "Vai a pagina, 1-based",
         "ui_read_page": "📄 Leggi pagina",
-        "ui_chat_ph": "Chiedi all'Esperto del PDF (es.: 'Spiega il punto X a pagina 10')",
+        "ui_chat_ph": "Fai una domanda sul PDF, per esempio, 'Spiega il punto X a pagina 10'",
         "ui_not_indexed": "Indice non caricato. Carica un PDF e attendi l'indicizzazione.",
         "ui_no_pages": "Le pagine del PDF non sono disponibili. Ricarica per reindicizzare.",
         "ui_page_not_exist": "La pagina {page} non esiste. Questo PDF ha {total} pagine.",
         "ui_not_found": "Non ho trovato estratti rilevanti nel documento per questa richiesta.",
-        "ui_sources": "🔎 Estratti usati (fonti)",
+        "ui_sources": "🔎 Estratti usati, fonti",
         "your_name": "Il tuo nome",
         "clear_history": "🧹 Pulisci storico",
         "sys_tutor": (
-            "Sei un esperto e tutor nel **tema del PDF** indicato.\n"
-            "PDF – Tema: {tema_pdf}\n\n"
+            "Sei un esperto e tutor nel tema del PDF indicato.\n"
+            "PDF, Tema, {tema_pdf}\n\n"
             "Regole:\n"
             "1) Rispondi solo in base al contesto; se manca qualcosa, dillo chiaramente.\n"
             "2) Spiega in modo chiaro e didattico, con struttura, passi ed esempi quando utile.\n"
-            "3) Approfondisci: buone pratiche, errori comuni e prossimi passi.\n"
-            "4) Cita sempre le pagine quando possibile (es.: 'vedi pagg. 62–63').\n"
+            "3) Approfondisci, buone pratiche, errori comuni e prossimi passi.\n"
+            "4) Cita sempre le pagine quando possibile, per esempio, 'vedi pagg. 62–63'.\n"
             "5) Sii conciso e utile.\n"
-            "6) **Rivolgiti sempre all’utente per nome `{nome}`** quando è naturale.\n"
+            "6) Rivolgiti sempre all’utente per nome `{nome}` quando è naturale.\n"
         ),
         "prompt_qa": (
             "Utente: {nome}\n"
             "Domanda: {pergunta}\n\n"
-            "Contesto (estratti dal PDF):\n{contexto}\n\n"
+            "Contesto, estratti dal PDF:\n{contexto}\n\n"
             "Rispondi come esperto del tema sopra, seguendo le regole di sistema."
         ),
         "prompt_task": (
             "Utente: {nome}\n"
             "Task: {tarefa}\n"
             "Istruzioni: {instrucao}\n\n"
-            "Contesto (estratti dal PDF):\n{contexto}\n\n"
+            "Contesto, estratti dal PDF:\n{contexto}\n\n"
             "Produci l'output finale, ben organizzato e azionabile, seguendo le regole di sistema."
         ),
-        "task_page_instr": "Riassumi chiaramente la pagina {page}: idea centrale, punti chiave, termini e ciò che serve per applicare.",
-        "task_doc_instr": "Sommario esecutivo: obiettivi, struttura, concetti chiave e applicazioni. Aggiungi 'Come usare questo PDF'.",
-        "task_gloss_instr": "Glossario: termine, definizione semplice e dove appare (pagina indicativa).",
+        "task_page_instr": "Riassumi chiaramente la pagina {page}, idea centrale, punti chiave, termini e ciò che serve per applicare.",
+        "task_doc_instr": "Sommario esecutivo, obiettivi, struttura, concetti chiave e applicazioni. Aggiungi 'Come usare questo PDF'.",
+        "task_gloss_instr": "Glossario, termine, definizione semplice e dove appare, pagina indicativa.",
         "task_faq_instr": "FAQ con 8–12 Q&A chiare su dubbi probabili.",
-        "task_plan_instr": "Piano di studio (base→avanzato) con obiettivi, pratica e checkpoint.",
-        "task_exs_instr": "Esercizi pratici (5–10) con obiettivo, passi e criterio di successo.",
+        "task_plan_instr": "Piano di studio, base fino avanzato, con obiettivi, pratica e checkpoint.",
+        "task_exs_instr": "Esercizi pratici, 5–10, con obiettivo, passi e criterio di successo.",
         "word_page_patterns": [r"\bpagina\.?\s*(\d+)\b", r"\bpag\.?\s*(\d+)\b"],
     },
     "en": {
         "ui_pdf_theme": "📚 PDF Theme",
-        "ui_theme_detected": "Detected theme (you may edit)",
-        "ui_caption": "The agent behaves as a specialist **in this theme**, based on the uploaded PDF.",
+        "ui_theme_detected": "Detected theme, you may edit",
+        "ui_caption": "The agent behaves as a specialist, based on the uploaded PDF.",
         "ui_quick": "⚡ Quick tasks",
         "ui_quick_page": "Page summary",
         "ui_quick_doc": "Document summary",
@@ -184,49 +178,46 @@ LANG: Dict[str, Dict[str, str]] = {
         "ui_quick_faq": "FAQ",
         "ui_quick_plan": "Study plan",
         "ui_quick_exs": "Exercises",
-        "ui_status": "🧪 Document status (debug)",
-        "ui_total_pages": "Total pages",
-        "ui_samples": "samples (page, text_len)",
-        "ui_go_page": "Go to page (1-based)",
+        "ui_go_page": "Go to page, 1-based",
         "ui_read_page": "📄 Read page",
-        "ui_chat_ph": "Ask the PDF Specialist (e.g., 'Explain topic X on page 10')",
+        "ui_chat_ph": "Ask about the PDF, for example, 'Explain topic X on page 10'",
         "ui_not_indexed": "Index not loaded. Upload a PDF and wait for indexing.",
         "ui_no_pages": "PDF pages are unavailable. Re-upload to re-index.",
         "ui_page_not_exist": "Page {page} does not exist. This PDF has {total} pages.",
         "ui_not_found": "No relevant excerpts found in the document for this request.",
-        "ui_sources": "🔎 Used excerpts (sources)",
+        "ui_sources": "🔎 Used excerpts, sources",
         "your_name": "Your name",
         "clear_history": "🧹 Clear history",
         "sys_tutor": (
-            "You are a specialist and tutor in the **theme of the provided PDF**.\n"
-            "PDF – Theme: {tema_pdf}\n\n"
+            "You are a specialist and tutor in the theme of the provided PDF.\n"
+            "PDF, Theme, {tema_pdf}\n\n"
             "Rules:\n"
             "1) Answer only based on the provided context; if something is missing, say it clearly.\n"
             "2) Explain clearly and pedagogically, with structure, steps and examples when useful.\n"
-            "3) Go deeper: best practices, common pitfalls and next steps.\n"
-            "4) Always reference pages when possible (e.g., 'see pp. 62–63').\n"
+            "3) Go deeper, best practices, common pitfalls and next steps.\n"
+            "4) Always reference pages when possible, for example, 'see pp. 62–63'.\n"
             "5) Be concise and useful.\n"
-            "6) **Always address the user by their name `{nome}`** when appropriate.\n"
+            "6) Always address the user by their name `{nome}` when appropriate.\n"
         ),
         "prompt_qa": (
             "User: {nome}\n"
             "Question: {pergunta}\n\n"
-            "Context (PDF excerpts):\n{contexto}\n\n"
+            "Context, PDF excerpts:\n{contexto}\n\n"
             "Answer as a specialist in the theme above, following the system rules."
         ),
         "prompt_task": (
             "User: {nome}\n"
             "Task: {tarefa}\n"
             "Instructions: {instrucao}\n\n"
-            "Context (PDF excerpts):\n{contexto}\n\n"
+            "Context, PDF excerpts:\n{contexto}\n\n"
             "Produce the final output, well organized and actionable, following the system rules."
         ),
-        "task_page_instr": "Summarize page {page}: main idea, key points, terms, and what the reader must know to apply.",
-        "task_doc_instr": "Executive summary: goals, structure, core concepts and applications. Add 'How to use this PDF'.",
-        "task_gloss_instr": "Glossary: term, simple definition and where it appears (approx. page).",
+        "task_page_instr": "Summarize page {page}, main idea, key points, terms, and what the reader must know to apply.",
+        "task_doc_instr": "Executive summary, goals, structure, core concepts and applications. Add 'How to use this PDF'.",
+        "task_gloss_instr": "Glossary, term, simple definition and where it appears, approximate page.",
         "task_faq_instr": "FAQ with 8–12 clear Q&A for likely doubts.",
-        "task_plan_instr": "Study plan (beginner→advanced) with goals, practice and checkpoints.",
-        "task_exs_instr": "Hands-on exercises (5–10) with objective, steps and success criteria.",
+        "task_plan_instr": "Study plan, beginner to advanced, with goals, practice and checkpoints.",
+        "task_exs_instr": "Hands-on exercises, 5–10, with objective, steps and success criteria.",
         "word_page_patterns": [r"\bpage\.?\s*(\d+)\b", r"\bpg\.?\s*(\d+)\b"],
     },
 }
@@ -285,7 +276,7 @@ def _extrair_pagina(pergunta: str, patt_list: List[str]) -> Optional[int]:
         m = re.search(_normalize(pat), norm, flags=re.IGNORECASE)
         if m:
             try:
-                return max(int(m.group(1)) - 1, 0)  # 1->0 based
+                return max(int(m.group(1)) - 1, 0)
             except ValueError:
                 continue
     return None
@@ -343,7 +334,6 @@ def _montar_contexto(
     pagina_forcada: Optional[int],
     patt_list: List[str],
 ) -> Tuple[List[Document], List[tuple], Optional[int]]:
-    # página solicitada?
     pagina0 = pagina_forcada
     if pagina0 is None and pergunta:
         pagina0 = _extrair_pagina(pergunta, patt_list)
@@ -351,27 +341,31 @@ def _montar_contexto(
     if pagina0 is not None:
         if 0 <= pagina0 < len(docs_paginas):
             docs = _contexto_por_pagina(docs_paginas, pagina0, vizinhas=incluir_vizinhas)
-            info = [(d.metadata.get("page", "?"), d.metadata.get("source", d.metadata.get("file_path", ""))) for d in docs]
+            info = [
+                (d.metadata.get("page", "?"), d.metadata.get("source", d.metadata.get("file_path", "")))
+                for d in docs
+            ]
             return docs, info, pagina0
         else:
             return [], [], pagina0
 
-    # caso geral: RAG (retriever ou vectorstore.as_retriever)
     if hasattr(retriever_or_vector, "invoke"):
         docs = retriever_or_vector.invoke(pergunta or "")
     else:
         retriever = retriever_or_vector.as_retriever(search_kwargs={"k": k})
         docs = retriever.invoke(pergunta or "")
 
-    info = [(d.metadata.get("page", "?"), d.metadata.get("source", d.metadata.get("file_path", ""))) for d in docs]
+    info = [
+        (d.metadata.get("page", "?"), d.metadata.get("source", d.metadata.get("file_path", "")))
+        for d in docs
+    ]
     return docs, info, None
 
 
 def _extrair_primeiro_nome(resposta: str) -> str:
     """
-    Extrai apenas o primeiro nome do texto.
-    Ex.: 'Olá, me chamo Jonas.' -> 'Jonas'
-    Ignora texto extra.
+    Extrai apenas o primeiro nome do texto, ignorando o resto.
+    Exemplo, 'Olá, me chamo Jonas, tudo bem?' -> 'Jonas'
     """
     if not resposta:
         return ""
@@ -428,18 +422,15 @@ def iniciar_assistente(
     k: int = 5,
     incluir_vizinhas: int = 1,
 ):
-    # Garante chaves sempre existentes
     ensure_session_defaults()
 
-    # Força parâmetros ideais (usuário não mexe)
-    k = 6                # número de chunks no RAG
-    incluir_vizinhas = 1 # páginas vizinhas quando pedir página X
+    # Força parâmetros ideais
+    k = 6
+    incluir_vizinhas = 1
 
-    # Sincroniza nome inicial se vier de fora
     if nome_usuario and not SAFE_GET("user_name"):
         SAFE_SET("user_name", nome_usuario)
 
-    # Idioma
     lang_code = SAFE_GET("app_lang", "pt")
     L = LANG.get(lang_code, LANG["pt"])
 
@@ -450,7 +441,6 @@ def iniciar_assistente(
         st.error(L["ui_no_pages"])
         return
 
-    # Tema + nome do arquivo
     tema_pdf_auto = _detectar_tema_pdf(docs_paginas)
 
     file_name = "PDF"
@@ -466,15 +456,15 @@ def iniciar_assistente(
 
     tema_final = tema_pdf_auto.strip() or tema_pdf_auto
     if lang_code == "it":
-        subtitulo = f"### 📘 Esperto in **{tema_final}** — basato su *{file_name}*"
+        subtitulo = f"### 📘 Esperto in **{tema_final}**, basato su *{file_name}*"
     elif lang_code == "en":
-        subtitulo = f"### 📘 Expert in **{tema_final}** — based on *{file_name}*"
+        subtitulo = f"### 📘 Expert in **{tema_final}** based on *{file_name}*"
     else:
-        subtitulo = f"### 📘 Especialista em **{tema_final}** — baseado em *{file_name}*"
+        subtitulo = f"### 📘 Especialista em **{tema_final}** baseado em *{file_name}*"
 
     st.markdown(subtitulo)
 
-    # -------- SIDEBAR (sem controles técnicos) --------
+    # Sidebar amigável
     with st.sidebar:
         st.subheader(L["ui_pdf_theme"])
         tema_pdf = st.text_input(L["ui_theme_detected"], value=tema_pdf_auto)
@@ -527,14 +517,6 @@ def iniciar_assistente(
         SAFE_SET("chat_history", hist)
         SAFE_SET("initial_greeting_done", True)
 
-    # Debug (para você, não pro usuário final)
-    with st.expander(L["ui_status"]):
-        st.write(f"{L['ui_total_pages']}: {len(docs_paginas)}")
-        samples = []
-        for i in range(min(5, len(docs_paginas))):
-            samples.append((i + 1, len((docs_paginas[i].page_content or ""))))
-        st.write({L["ui_samples"]: samples})
-
     # Navegação por página
     col1, col2 = st.columns([1, 3])
     with col1:
@@ -550,7 +532,7 @@ def iniciar_assistente(
     # Entrada do usuário
     pergunta = st.chat_input(L["ui_chat_ph"])
 
-    # Primeira mensagem: captura nome
+    # Primeira mensagem, captura nome
     if pergunta and not SAFE_GET("user_name", ""):
         nome_extraido = _extrair_primeiro_nome(pergunta)
         if nome_extraido:
@@ -603,21 +585,26 @@ def iniciar_assistente(
         st.session_state["_last_quick_task_clicked"] = ""
 
     if bt_res_pag:
-        quick_task = "resumo_pagina"; pagina_forcada = page_num - 1
+        quick_task = "resumo_pagina"
+        pagina_forcada = page_num - 1
         if not pergunta:
             pergunta = f"pagina {page_num}" if lang_code != "en" else f"page {page_num}"
     elif bt_res_doc:
         quick_task = "resumo_documento"
         if not pergunta:
-            pergunta = "resumo do documento" if lang_code == "pt" else \
-                       "riassunto del documento" if lang_code == "it" else \
-                       "document summary"
+            pergunta = (
+                "resumo do documento" if lang_code == "pt"
+                else "riassunto del documento" if lang_code == "it"
+                else "document summary"
+            )
     elif bt_gloss:
         quick_task = "glossario"
         if not pergunta:
-            pergunta = "glossário" if lang_code == "pt" else \
-                       "glossario" if lang_code == "it" else \
-                       "glossary"
+            pergunta = (
+                "glossário" if lang_code == "pt"
+                else "glossario" if lang_code == "it"
+                else "glossary"
+            )
     elif bt_faq:
         quick_task = "faq"
         if not pergunta:
@@ -625,15 +612,19 @@ def iniciar_assistente(
     elif bt_plano:
         quick_task = "plano_estudo"
         if not pergunta:
-            pergunta = "plano de estudo" if lang_code == "pt" else \
-                       "piano di studio" if lang_code == "it" else \
-                       "study plan"
+            pergunta = (
+                "plano de estudo" if lang_code == "pt"
+                else "piano di studio" if lang_code == "it"
+                else "study plan"
+            )
     elif bt_exs:
         quick_task = "exercicios"
         if not pergunta:
-            pergunta = "exercícios" if lang_code == "pt" else \
-                       "esercizi" if lang_code == "it" else \
-                       "exercises"
+            pergunta = (
+                "exercícios" if lang_code == "pt"
+                else "esercizi" if lang_code == "it"
+                else "exercises"
+            )
 
     if not pergunta and not quick_task:
         return
@@ -644,7 +635,7 @@ def iniciar_assistente(
     hist.append({"role": "user", "content": f"({uname}) {pergunta}"})
     SAFE_SET("chat_history", hist)
 
-    # Monta contexto (por página ou RAG)
+    # Monta contexto
     patt_list = L["word_page_patterns"]
     docs, info_sources, pagina0 = _montar_contexto(
         pergunta, docs_paginas, vectordb, k, incluir_vizinhas, pagina_forcada, patt_list
@@ -670,7 +661,6 @@ def iniciar_assistente(
 
     contexto = _compactar_docs(docs, limite_chars=5200)
 
-    # Prompts com histórico
     SYSTEM_TUTOR = L["sys_tutor"]
     PROMPT_QA = ChatPromptTemplate.from_messages(
         [("system", SYSTEM_TUTOR), MessagesPlaceholder("history"), ("user", L["prompt_qa"])]
@@ -732,7 +722,7 @@ def iniciar_assistente(
     hist.append({"role": "assistant", "content": resposta})
     SAFE_SET("chat_history", hist)
 
-    # Fontes
+    # Fontes usadas
     with st.expander(L["ui_sources"]):
         for pag, src in info_sources:
             try:
