@@ -537,20 +537,22 @@ def iniciar_assistente(
         return
 
     # Tema + nome de arquivo
-    tema_pdf_auto = _detectar_tema_pdf(docs_paginas)
-
+    # Nome de arquivo do PDF
     file_name = "PDF"
     try:
         if docs_paginas and isinstance(docs_paginas[0].metadata, dict):
             file_name = (
-                docs_paginas[0].metadata.get("source")
-                or Path(docs_paginas[0].metadata.get("file_path", "")).name
-                or "PDF"
+                    docs_paginas[0].metadata.get("source")
+                    or Path(docs_paginas[0].metadata.get("file_path", "")).name
+                    or "PDF"
             )
     except Exception:
         pass
 
-    tema_final = tema_pdf_auto.strip() or tema_pdf_auto
+    # Tema padrão = nome do arquivo (o usuário pode editar na sidebar)
+    tema_pdf_auto = file_name
+
+    tema_final = tema_pdf_auto.strip() or "PDF"
     if lang_code == "it":
         subtitulo = f"### 📘 Esperto in **{tema_final}**, basato su *{file_name}*"
     elif lang_code == "en":
